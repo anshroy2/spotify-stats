@@ -42,7 +42,7 @@ class App extends Component {
   render() {
     return (
     <div className="App">
-      <a href="http://localhost:8888/login">
+      <a href="https://spotify-stats-backend.now.sh/login">
         <button>Login with Spotify</button>
       </a>
       <div> Now playing: {this.state.nowPlaying.name}</div>
