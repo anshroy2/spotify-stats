@@ -18,7 +18,6 @@ class Artists extends Component {
     if (params.access_token) {
       spotifywebapi.setAccessToken(params.access_token)
     }
-    //this.getTopArtists();
   }
   getHashParams() {
     var hashParams = {};
@@ -57,7 +56,7 @@ class Artists extends Component {
   render() {
     return (
     <div className="Artists">
-      <a href="http://localhost:8888/login">
+      <a href="http://spotify-stats-backend.now.sh/login">
         <button>Login with Spotify</button>
       </a>
       <div> Now playing: {this.state.nowPlaying.name}</div>
