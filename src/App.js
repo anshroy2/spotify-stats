@@ -1,61 +1,56 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
-import Spotify from 'spotify-web-api-js';
-
-const spotifywebapi = new Spotify();
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink
+} from 'reactstrap';
+import Artists from './components/artists.js';
 
 class App extends Component {
-  constructor() {
-    super();
-    const params = this.getHashParams();
+  constructor (props) {
+    super(props);
+
+    this.toggle = this.toggle.bind(this);
     this.state = {
-      loggedIn: params.access_token? true : false,
-      nowPlaying: {
-        name: 'Not checked',
-        image: ''
-      }
+      isOpen: false
     }
-    if (params.access_token) {
-      spotifywebapi.setAccessToken(params.access_token)
-    }
-  }
-  getHashParams() {
-    var hashParams = {};
-    var e, r = /([^&;=]+)=?([^&;]*)/g,
-        q = window.location.hash.substring(1);
-    while ( e = r.exec(q)) {
-       hashParams[e[1]] = decodeURIComponent(e[2]);
-    }
-    return hashParams;
-  }
-  getNowPlaying() {
-    spotifywebapi.getMyCurrentPlaybackState()
-      .then((response) => {
-        this.setState({
-          nowPlaying: {
-            name: response.item.name,
-            image: response.item.album.images[0].url
-          }
-        })
-      })
-  }
-  render() {
-    return (
-    <div className="App">
-      <a href="https://spotify-stats-backend.now.sh/login">
-        <button>Login with Spotify</button>
-      </a>
-      <div> Now playing: {this.state.nowPlaying.name}</div>
-      <div>
-        <img src={this.state.nowPlaying.image} style={{width: 100}}></img>
-      </div>
-      <button onClick={() => this.getNowPlaying()}>
-        Check Now Playing 
-      </button>
-    </div>
-    );
   }
 
+  toggle () {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
+
+  render () {
+    return (
+      <Router>
+        <div className='Website-background'>
+          <Navbar className='navbar-color' dark expand='md'>
+            <NavbarBrand href='/'>Ansh Roy</NavbarBrand>
+            <NavbarToggler onClick={this.toggle} />
+            <Collapse isOpen={this.state.isOpen} navbar>
+              <Nav className='ml-auto' navbar>
+                <NavItem>
+                  <NavLink href='/about/'>About</NavLink>
+                </NavItem>
+              </Nav>
+            </Collapse>
+          </Navbar>
+          <br />
+          <Switch>
+            <Route exact path='/' component={Artists} />
+          </Switch>
+        </div>
+      </Router>
+    )
+  }
 }
 
 export default App;
