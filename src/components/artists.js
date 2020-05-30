@@ -1,32 +1,20 @@
 import React, { Component } from 'react';
-import Spotify from 'spotify-web-api-js';
 
-const spotifywebapi = new Spotify();
+var spotifywebapi;
 
 class Artists extends Component {
-  constructor() {
-    super();
-    const params = this.getHashParams();
+  constructor(props) {
+    super(props);
+    spotifywebapi = this.props.api;
+    console.log(this.props.api);
     this.state = {
-      loggedIn: params.access_token? true : false,
+      loggedIn: this.props.loggedIn,
       nowPlaying: {
         name: 'Not checked',
         image: ''
       },
       topArtists: []
-    }
-    if (params.access_token) {
-      spotifywebapi.setAccessToken(params.access_token)
-    }
-  }
-  getHashParams() {
-    var hashParams = {};
-    var e, r = /([^&;=]+)=?([^&;]*)/g,
-        q = window.location.hash.substring(1);
-    while ( e = r.exec(q)) {
-       hashParams[e[1]] = decodeURIComponent(e[2]);
-    }
-    return hashParams;
+    };
   }
   getNowPlaying() {
     spotifywebapi.getMyCurrentPlaybackState()
@@ -56,9 +44,6 @@ class Artists extends Component {
   render() {
     return (
     <div className="Artists">
-      <a href="http://spotify-stats-backend.now.sh/login">
-        <button>Login with Spotify</button>
-      </a>
       <div> Now playing: {this.state.nowPlaying.name}</div>
       <div>
         <img src={this.state.nowPlaying.image} style={{width: 100}}></img>

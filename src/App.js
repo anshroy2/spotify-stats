@@ -11,6 +11,7 @@ import {
   NavLink
 } from 'reactstrap';
 import Artists from './components/artists.js';
+import Home from './components/Home.js';
 
 class App extends Component {
   constructor (props) {
@@ -33,19 +34,20 @@ class App extends Component {
       <Router>
         <div className='Website-background'>
           <Navbar className='navbar-color' dark expand='md'>
-            <NavbarBrand href='/'>Ansh Roy</NavbarBrand>
+            <NavbarBrand href='/'>Spotify Stats</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className='ml-auto' navbar>
                 <NavItem>
-                  <NavLink href='/about/'>About</NavLink>
+                  <NavLink href='/artists/'>Artists</NavLink>
                 </NavItem>
               </Nav>
             </Collapse>
           </Navbar>
           <br />
           <Switch>
-            <Route exact path='/' component={Artists} />
+            <Route exact path='/' component={Home} />
+            <Router exact path='/artists' component={Artists} />
           </Switch>
         </div>
       </Router>
